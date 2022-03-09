@@ -16,6 +16,7 @@ func SortString(w string) string {
 }
 
 func Permutations(items []int, n int) [][]int {
+    fmt.Println("Permutations", items, n)
     // permute from 9-0 for size times
     perms := make([][]int, 0)
     if n == 0 {
@@ -30,7 +31,11 @@ func Permutations(items []int, n int) [][]int {
     } else {
         for i, item := range items {
             // copying the items and remove the current index
-            remainingItems := RemoveIndex(items, i)
+            remainingItems := items
+            fmt.Println("remain = ", remainingItems, "items = ", items)
+            remainingItems = CopyRemoveIndex(remainingItems, i)
+            fmt.Println("afterremain = ", remainingItems, "items = ", items)
+            fmt.Println("range ", i, item, remainingItems, items, "n=", n)
             ps := Permutations(remainingItems, n - 1)
             for _, p := range ps {
                 p = append([]int{item}, p...)
@@ -42,8 +47,11 @@ func Permutations(items []int, n int) [][]int {
     return perms
 }
 
-func RemoveIndex(s []int, index int) []int {
-    return append(s[:index], s[index+1:]...)
+func CopyRemoveIndex(s []int, index int) []int {
+    items := make([]int, 0)
+    items = append(items, s[:index]...)
+    items = append(items, s[index+1:]...)
+    return items
 }
 
 
@@ -83,7 +91,7 @@ func main() {
 
     // for each key, assign a value for each number
     // we need to permute all the numbers 0-9
-    ps := Permutations([]int{0,1,2}, 2)
+    ps := Permutations([]int{9,8,7,6,5,4,3,2,1,0}, 9)
     fmt.Println(ps)
 
 
